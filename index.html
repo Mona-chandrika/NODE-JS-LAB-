@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - E-Book Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #1f2937, #111827);
+            width: 250px;
+        }
+
+        .sidebar .nav-link {
+            color: #d1d5db;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #2563eb;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .card {
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="d-flex">
+
+    <!-- Sidebar -->
+    <div class="sidebar text-white p-3 vh-100 d-none d-md-block">
+        <h4 class="text-center mb-4">📚 E-Book</h4>
+
+        <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+                <a href="index.html" class="nav-link active">🏠 Home</a>
+            </li>
+            <li class="nav-item mb-2">
+                <a href="catalog.html" class="nav-link">📖 Catalog</a>
+            </li>
+            <li class="nav-item mb-2">
+                <a href="cart.html" class="nav-link">🛒 Cart</a>
+            </li>
+            <li class="nav-item mt-4">
+                <a href="#" onclick="logoutUser()" class="nav-link text-danger">
+                    🚪 Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid p-4 w-100">
+
+        <h2>Welcome to E-Book Dashboard 👋</h2>
+        <p id="welcomeUser" class="text-muted"></p>
+
+        <div class="row mt-4">
+
+            <div class="col-md-6 mb-4">
+                <div class="card shadow p-4 text-center">
+                    <h4>Total Books Available</h4>
+                    <h2>6</h2>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card shadow p-4 text-center">
+                    <h4>Items in Cart</h4>
+                    <h2 id="cartCountHome">0</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+            <a href="catalog.html" class="btn btn-primary me-2">
+                Browse Books
+            </a>
+            <a href="cart.html" class="btn btn-success">
+                View Cart
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+    // Show logged in user
+    let user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        document.getElementById("welcomeUser").innerText =
+            "Hello, " + user.name + " 👋";
+    }
+
+    // Update cart count
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    document.getElementById("cartCountHome").innerText = cart.length;
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
