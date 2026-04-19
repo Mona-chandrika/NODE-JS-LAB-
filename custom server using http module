@@ -1,0 +1,37 @@
+const http = require('http');
+const os = require('os');
+const path = require('path');
+const EventEmitter = require('events');
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+const requestHandler = (req, res) => {
+myEmitter.emit('requestHandled', req.url);
+myEmitter.emit('customEvent', { message: 'Hello from custom event!' });
+if (req.url === '/') {
+res.writeHead(200, { 'Content-Type': 'text/plain' });
+res.end('Hello, World!\n');
+} else if (req.url === '/info') {
+const info = {
+hostname: os.hostname(),
+platform: os.platform(),
+homedir: os.homedir(),
+file: path.basename(__filename),
+dir: __dirname
+};
+res.writeHead(200, { 'Content-Type': 'application/json' });
+res.end(JSON.stringify(info, null, 2));
+} else {
+res.writeHead(404, { 'Content-Type': 'text/plain' });
+res.end('Not Found\n');
+}
+};
+const server = http.createServer(requestHandler);
+server.listen(3000, () => {
+console.log('Server is running on http://localhost:3000');
+});
+myEmitter.on('requestHandled', (url) => {
+console.log(`A request was made to: ${url}`);
+});
+myEmitter.on('customEvent', (data) => {
+console.log(`Custom Event Triggered: ${JSON.stringify(data)}`);
+});
