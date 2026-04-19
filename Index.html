@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Cookie Session Tracking</h1>
+{% if user_language %}
+<p>Your preferred language is: {{ user_language }}</p>
+{% else %}
+<p>Your language preference is not set.</p>
+{% endif %}
+<p><a href="/set_language/en">Set language to English</a></p>
+<p><a href="/set_language/es">Set language to Spanish</a></p>
+<hr>
+<p><a href="/session">Go to Session Example</a></p>
+</body>
+</html>
