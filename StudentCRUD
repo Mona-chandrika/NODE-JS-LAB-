@@ -1,0 +1,49 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const PORT = 3000;
+app.use(bodyParser.json());
+let students = [
+{ id: 1, name: "Sunny", age: 20, course: "ECE" },
+{ id: 2, name: "Rahul", age: 21, course: "CSE" }
+];
+app.post('/students', (req, res) => {
+const { id, name, age, course } = req.body;
+if (!id || !name || !age || !course) {
+return res.status(400).json({ message: "All fields are required" });
+}
+students.push({ id, name, age, course });
+res.status(201).json({ message: "Student added successfully", students });
+});
+app.get('/students', (req, res) => {
+res.json(students);
+});
+app.get('/students/:id', (req, res) => {
+const student = students.find(s => s.id == req.params.id);
+if (!student) {
+return res.status(404).json({ message: "Student not found" });
+}
+res.json(student);
+});
+app.put('/students/:id', (req, res) => {
+const student = students.find(s => s.id == req.params.id);
+if (!student) {
+return res.status(404).json({ message: "Student not found" });
+}
+const { name, age, course } = req.body;
+if (name) student.name = name;
+if (age) student.age = age;
+if (course) student.course = course;
+res.json({ message: "Student updated", student });
+});
+app.delete('/students/:id', (req, res) => {
+const index = students.findIndex(s => s.id == req.params.id);
+if (index === -1) {
+return res.status(404).json({ message: "Student not found" });
+}
+students.splice(index, 1);
+res.json({ message: "Student deleted successfully" });
+});
+app.listen(PORT, () => {
+console.log(`Server running at http://localhost:${PORT}`);
+})
